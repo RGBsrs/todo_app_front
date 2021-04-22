@@ -1,21 +1,43 @@
 <template>
-    <div>
+  <div>
     <input class="todo-input" placeholder="Add some tasks" 
     v-model="newTodo" 
-    @keyup.enter="addTodo"
-    >  
+    @keyup.enter="addTodo">
+
     <div v-for="(todo, index) in todos" :key="todo.id" class="todo-item">
-      <div class="todo-item-left" >
-        <div class="todo-item-label">
-          {{todo.title}}
-        </div>
-        <input class="todo-item-edit" type="text" v-model="todo.title">
+      <div class="todo-item-left">
+        <input type="checkbox" v-model="todo.completed">
+          <div class="todo-item-label"
+          :class="{completed : todo.completed}" 
+          v-if="!todo.editing" 
+          @dblclick="editTodo(todo)" >
+            {{todo.title}}
+          </div>
+          <input v-else class="todo-item-edit" type="text" 
+          v-model="todo.title" 
+          @blur="doneEdit(todo)"
+          @keyup.enter="doneEdit(todo)"
+          @keyup.esc="cancelEdit(todo)"
+          v-focous>
       </div>
       <div class="remove-item" @click="removeTodo(index)">
         &times;
       </div>
-    </div>  
     </div>
+
+    <div class="extra-container">
+      <div>
+        <label>
+          <input type="checkbox">
+          Check All
+        </label>
+      </div>
+      <div>
+        {{remaining}} items left
+      </div>
+    </div>
+
+  </div>
 </template>
 
 <script>
@@ -24,6 +46,7 @@ export default {
     data() {
         return {
             newTodo : '',
+            beforeEditCache : '',
             idForTodo: 4,
             todos : [
               {
@@ -35,7 +58,7 @@ export default {
               {
                 'id':2,
                 'title': 'Finish Vue Forms',
-                'completed': false,
+                'completed': true,
                 'editing': false,
               },
               {
@@ -47,6 +70,21 @@ export default {
             ]
         }
     },
+
+    computed: {
+        remaining() {
+          return this.todos.filter(todo => !todo.completed).length
+        }
+    },
+
+    directives: {
+      focus: {
+        inserted: function (el) {
+          el.focus
+        }
+      }
+    },
+
     methods: {
       addTodo() {
         if (this.newTodo.trim().length == 0) {
@@ -63,9 +101,26 @@ export default {
         this.newTodo = ''
         this.idForTodo++
       },
+
+      editTodo(todo) {
+        todo.editing =true
+        this.beforeEditCache = todo.title
+      },
       
       removeTodo(index) {
         this.todos.splice(index,1)
+      },
+
+      doneEdit(todo) {
+        if (todo.title.trim() == '') {
+          todo.title = this.beforeEditCache
+        }
+        todo.editing = false
+      },
+
+      cancelEdit(todo) {
+        todo.title = this.beforeEditCache
+        todo.editing = false
       }
     }
 }
@@ -122,6 +177,39 @@ export default {
     &:focus {
       outline: none;
     }
+  }
+
+  .completed {
+    text-decoration: line-through;
+    color: grey;
+  }
+
+  .extra-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    border-top: 1px solid lightgray;
+    padding-top: 14px;
+    margin-bottom: 14px;
+  }
+
+  button {
+    font-size: 14px;
+    background-color: white;
+    appearance: none;
+
+    &:hover {
+      background: lightgreen;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .active {
+    background: lightgreen;
   }
 
 </style>

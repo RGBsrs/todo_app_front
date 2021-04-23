@@ -23,9 +23,7 @@
           Check All
         </label>
       </div>
-      <div>
-        {{remaining}} items left
-      </div>
+      <todo-items-remaining :remaining="remaining"></todo-items-remaining>
     </div>
     <!---------->
     <div class="extra-container">
@@ -61,11 +59,13 @@
 
 <script>
 import TodoItem from './TodoItem'
+import TodoItemsRemaining from './TodoItemsRemaining'
 
 export default {
     name: 'todo-list',
     components: {
       TodoItem,
+      TodoItemsRemaining,
     },
     data() {
         return {

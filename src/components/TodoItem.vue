@@ -15,7 +15,7 @@
           @blur="doneEdit"
           @keyup.enter="doneEdit"
           @keyup.esc="cancelEdit"
-          v-focous>
+          v-focus>
       </div>
       <div class="remove-item" @click="removeTodo(index)">
         &times;
@@ -72,7 +72,7 @@ export default {
 
     methods: {
       removeTodo(index) {
-        this.$emit('removedTodo', index)
+        this.$eventBus.$emit('removedTodo', index)
       },
 
       editTodo() {
@@ -85,7 +85,7 @@ export default {
           this.title = this.beforeEditCache
         }
         this.editing = false
-        this.$emit('finishedEdit', {
+        this.$eventBus.$emit('finishedEdit', {
           'index' : this.index,
           'todo' : {
             'id' : this.id,

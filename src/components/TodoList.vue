@@ -10,9 +10,7 @@
       :key="todo.id"
       :todo="todo"
       :index="index"
-      :checkAll="!anyRemaining"
-      @removedTodo="removeTodo"
-      @finishedEdit="finishedEdit">
+      :checkAll="!anyRemaining">
       </todo-item>
     </transition-group>
     <!------------------------------------------------------------------------->
@@ -96,6 +94,11 @@ export default {
               },
             ]
         }
+    },
+
+    created() {
+      this.$eventBus.$on('removedTodo',(index) => this.removeTodo(index))
+      this.$eventBus.$on('finishedEdit',(data) => this.finishedEdit(data))
     },
 
     computed: {

@@ -6,26 +6,13 @@
     <!------------------------------------------------------------------------->
     <transition-group name="fade" enter-active-class="animated fadeInUp" 
                                   leave-active-class="animated fadeOutDown">
-      <div v-for="(todo, index) in todosFiltered" :key="todo.id" class="todo-item">
-        <div class="todo-item-left">
-          <input type="checkbox" v-model="todo.completed">
-            <div class="todo-item-label"
-            :class="{completed : todo.completed}" 
-            v-if="!todo.editing" 
-            @dblclick="editTodo(todo)" >
-              {{todo.title}}
-            </div>
-            <input v-else class="todo-item-edit" type="text" 
-            v-model="todo.title" 
-            @blur="doneEdit(todo)"
-            @keyup.enter="doneEdit(todo)"
-            @keyup.esc="cancelEdit(todo)"
-            v-focous>
-        </div>
-        <div class="remove-item" @click="removeTodo(index)">
-          &times;
-        </div>
-      </div>
+      <todo-item v-for="(todo, index) in todosFiltered" 
+      :key="todo.id"
+      :todo="todo"
+      :index="index"
+      @removedTodo="removeTodo"
+      @finishedEdit="finishedEdit">
+      </todo-item>
     </transition-group>
     <!------------------------------------------------------------------------->
     <div class="extra-container">
@@ -74,8 +61,13 @@
 
 
 <script>
+import TodoItem from './TodoItem'
+
 export default {
     name: 'todo-list',
+    components: {
+      TodoItem,
+    },
     data() {
         return {
             newTodo : '',
@@ -185,6 +177,10 @@ export default {
       cancelEdit(todo) {
         todo.title = this.beforeEditCache
         todo.editing = false
+      },
+
+      finishedEdit(data) {
+        this.todos.splice(data.index, 1, data.todo)
       }
     }
 }

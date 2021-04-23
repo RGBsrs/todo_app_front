@@ -10,6 +10,7 @@
       :key="todo.id"
       :todo="todo"
       :index="index"
+      :checkAll="!anyRemaining"
       @removedTodo="removeTodo"
       @finishedEdit="finishedEdit">
       </todo-item>
@@ -125,14 +126,6 @@ export default {
         }
     },
 
-    directives: {
-      focus: {
-        inserted: function (el) {
-          el.focus
-        }
-      }
-    },
-
     methods: {
       addTodo() {
         if (this.newTodo.trim().length == 0) {
@@ -149,11 +142,6 @@ export default {
         this.newTodo = ''
         this.idForTodo++
       },
-
-      editTodo(todo) {
-        todo.editing =true
-        this.beforeEditCache = todo.title
-      },
       
       removeTodo(index) {
         this.todos.splice(index,1)
@@ -165,18 +153,6 @@ export default {
 
       clearCompleted() {
         this.todos = this.todos.filter((todo) => !todo.completed)
-      },
-
-      doneEdit(todo) {
-        if (todo.title.trim() == '') {
-          todo.title = this.beforeEditCache
-        }
-        todo.editing = false
-      },
-
-      cancelEdit(todo) {
-        todo.title = this.beforeEditCache
-        todo.editing = false
       },
 
       finishedEdit(data) {

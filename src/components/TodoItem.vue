@@ -1,7 +1,9 @@
 <template>
   <div class="todo-item">
     <div class="todo-item-left">
-        <input type="checkbox" v-model="completed">
+        <input type="checkbox" 
+        v-model="completed"
+        @change="doneEdit">
           <div class="todo-item-label"
           :class="{completed : completed}" 
           v-if="!editing" 
@@ -32,6 +34,10 @@ export default {
       index: {
         type: Number,
         required: true,
+      },
+      checkAll: {
+        type: Boolean,
+        required: true,
       }
     },
 
@@ -42,6 +48,25 @@ export default {
         'completed' : this.todo.completed,
         'editing' : this.todo.editing,
         'beforeEditCache' : '',
+      }
+    },
+
+    watch: {
+      checkAll() {
+        if (this.checkAll) {
+        this.completed = true
+      }
+      else {
+        this.completed = this.todo.completed
+      }
+      }
+    },
+
+    directives: {
+      focus: {
+        inserted: function (el) {
+          el.focus
+        }
       }
     },
 

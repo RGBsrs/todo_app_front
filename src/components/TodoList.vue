@@ -20,23 +20,7 @@
     </div>
     <!---------->
     <div class="extra-container">
-      <div>
-        <button 
-        :class="{active : filter == 'all'}"
-        @click="filter = 'all'">
-        All
-        </button>
-        <button 
-        :class="{active : filter == 'active'}"
-        @click="filter = 'active'">
-        Active
-        </button>
-        <button 
-        :class="{active : filter == 'completed'}"
-        @click="filter = 'completed'">
-        Completed
-        </button>
-      </div>
+      <todo-filtered></todo-filtered>
       <div>
         <transition name="fade">
           <button v-if="showClearCompletedButton"
@@ -54,6 +38,7 @@
 import TodoItem from './TodoItem'
 import TodoItemsRemaining from './TodoItemsRemaining'
 import TodoCheckAll from './TodoCheckAll'
+import TodoFiltered from './TodoFiltered'
 
 export default {
     name: 'todo-list',
@@ -61,13 +46,14 @@ export default {
       TodoItem,
       TodoItemsRemaining,
       TodoCheckAll,
+      TodoFiltered,
     },
     data() {
         return {
             newTodo : '',
             beforeEditCache : '',
-            filter : 'all',
             idForTodo: 4,
+            filter: 'all',
             todos : [
               {
                 'id':1,
@@ -95,6 +81,7 @@ export default {
       this.$eventBus.$on('removedTodo',(index) => this.removeTodo(index))
       this.$eventBus.$on('finishedEdit',(data) => this.finishedEdit(data))
       this.$eventBus.$on('checkAllChanged', (checked) => this.checkAllTodos(checked))
+      this.$eventBus.$on('filterChanged', (filter) => this.filter = filter)
     },
 
     computed: {

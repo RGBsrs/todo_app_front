@@ -21,16 +21,14 @@
 <script>
 export default {
   name: 'todo-filtered',
-  data() {
-    return {
-      'filter' : 'all',
-    }
+  computed: {
+    filter() {
+      return this.$store.state.filter
+    },
   },
-
   methods: {
     changeFilter(filter) {
-      this.filter = filter
-      this.$eventBus.$emit('filterChanged', filter)
+      this.$store.state.filter = filter
     },
   },
 }

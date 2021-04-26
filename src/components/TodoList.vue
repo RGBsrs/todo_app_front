@@ -6,10 +6,9 @@
     <!------------------------------------------------------------------------->
     <transition-group name="fade" enter-active-class="animated fadeInUp" 
                                   leave-active-class="animated fadeOutDown">
-      <todo-item v-for="(todo, index) in todosFiltered" 
+      <todo-item v-for="(todo) in todosFiltered" 
       :key="todo.id"
       :todo="todo"
-      :index="index"
       :checkAll="!anyRemaining">
       </todo-item>
     </transition-group>
@@ -57,7 +56,7 @@ export default {
     },
 
     created() {
-      this.$eventBus.$on('removedTodo',(index) => this.removeTodo(index))
+      // this.$eventBus.$on('removedTodo',(index) => this.removeTodo(index))
       this.$eventBus.$on('finishedEdit',(data) => this.finishedEdit(data))
       this.$eventBus.$on('checkAllChanged', (checked) => this.checkAllTodos(checked))
       this.$eventBus.$on('filterChanged', (filter) => this.$store.state.filter = filter)
@@ -65,7 +64,7 @@ export default {
     },
 
     beforeDestroy() {
-      this.$eventBus.$off('removedTodo',(index) => this.removeTodo(index))
+      // this.$eventBus.$off('removedTodo',(index) => this.removeTodo(index))
       this.$eventBus.$off('finishedEdit',(data) => this.finishedEdit(data))
       this.$eventBus.$off('checkAllChanged', (checked) => this.checkAllTodos(checked))
       this.$eventBus.$off('filterChanged', (filter) => this.$store.state.filter = filter)
@@ -106,10 +105,6 @@ export default {
         this.newTodo = ''
         this.idForTodo++
       },
-      
-      removeTodo(index) {
-        this.$store.state.todos.splice(index,1)
-      },
 
       checkAllTodos() {
         this.$store.state.todos.forEach((todo) => todo.completed = event.target.checked)
@@ -118,11 +113,6 @@ export default {
       clearCompleted() {
         this.$store.state.todos = this.$store.state.todos.filter((todo) => !todo.completed)
       },
-
-      finishedEdit(data) {
-        const index = this.$store.state.todos.findIndex(item => item.id == data.id)
-        this.$store.state.todos.splice(index, 1, data)
-      }
     }
 }
 </script>

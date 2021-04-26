@@ -63,6 +63,9 @@ export default new Vuex.Store({
         editing: false
       })
     },
+    clearCompleted(state) {
+      state.todos = state.todos.filter((todo) => !todo.completed)
+    },
   },
   actions: {
   },

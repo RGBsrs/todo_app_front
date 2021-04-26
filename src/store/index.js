@@ -9,19 +9,19 @@ export default new Vuex.Store({
     todos : [
       {
         'id':1,
-        'title': 'Finish Vue Forms',
+        'title': 'Finish Vue Forms 1',
         'completed': false,
         'editing': false,
       },
       {
         'id':2,
-        'title': 'Finish Vue Forms',
-        'completed': true,
+        'title': 'Finish Vue Forms 2',
+        'completed': false,
         'editing': false,
       },
       {
         'id':3,
-        'title': 'Finish Vue Forms',
+        'title': 'Finish Vue Forms 3',
         'completed': false,
         'editing': false,
       },
@@ -55,6 +55,14 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    addTodo(state, todo) {
+      state.todos.push({
+        id: todo.id,
+        title: todo.title,
+        completed: false,
+        editing: false
+      })
+    },
   },
   actions: {
   },

@@ -14,16 +14,15 @@
     </transition-group>
     <!------------------------------------------------------------------------->
     <div class="extra-container">
-      <todo-check-all></todo-check-all>
-      <todo-items-remaining></todo-items-remaining>
+      <todo-check-all/>
+      <todo-items-remaining/>
     </div>
     <!---------->
     <div class="extra-container">
-      <todo-filtered></todo-filtered>
+      <todo-filtered/>
       <div>
         <transition name="fade">
-          <todo-clear-completed :showClearCompletedButton = "showClearCompletedButton">
-          </todo-clear-completed>
+          <todo-clear-completed/>
         </transition>
       </div>
     </div>
@@ -55,22 +54,6 @@ export default {
         }
     },
 
-    created() {
-      // this.$eventBus.$on('removedTodo',(index) => this.removeTodo(index))
-      // this.$eventBus.$on('finishedEdit',(data) => this.finishedEdit(data))
-      // this.$eventBus.$on('checkAllChanged', (checked) => this.checkAllTodos(checked))
-      this.$eventBus.$on('filterChanged', (filter) => this.$store.state.filter = filter)
-      this.$eventBus.$on('clearCompletedTodos', this.clearCompleted)
-    },
-
-    beforeDestroy() {
-      // this.$eventBus.$off('removedTodo',(index) => this.removeTodo(index))
-      // this.$eventBus.$off('finishedEdit',(data) => this.finishedEdit(data))
-      // this.$eventBus.$off('checkAllChanged', (checked) => this.checkAllTodos(checked))
-      this.$eventBus.$off('filterChanged', (filter) => this.$store.state.filter = filter)
-      this.$eventBus.$off('clearCompletedTodos', this.clearCompleted)
-    },
-
     computed: {
         remaining() {
           return this.$store.getters.remaining
@@ -95,23 +78,13 @@ export default {
           return
         }
 
-        this.$store.state.todos.push({
+        this.$store.commit('addTodo', {
           id: this.idForTodo,
           title: this.newTodo,
-          completed: false,
-          editing: false
         })
 
         this.newTodo = ''
         this.idForTodo++
-      },
-
-      checkAllTodos() {
-        this.$store.state.todos.forEach((todo) => todo.completed = event.target.checked)
-      },
-
-      clearCompleted() {
-        this.$store.state.todos = this.$store.state.todos.filter((todo) => !todo.completed)
       },
     }
 }

@@ -69,6 +69,9 @@ export default new Vuex.Store({
     updateFilter(state, filter) {
       state.filter = filter
     },
+    checkAll(state) {
+      state.todos.forEach(todo => (todo.completed = event.target.checked))
+    },
   },
   actions: {
   },

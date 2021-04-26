@@ -16,7 +16,7 @@
     <!------------------------------------------------------------------------->
     <div class="extra-container">
       <todo-check-all :anyRemaining="anyRemaining"></todo-check-all>
-      <todo-items-remaining :remaining="remaining"></todo-items-remaining>
+      <todo-items-remaining></todo-items-remaining>
     </div>
     <!---------->
     <div class="extra-container">
@@ -74,29 +74,19 @@ export default {
 
     computed: {
         remaining() {
-          return this.$store.state.todos.filter(todo => !todo.completed).length
+          return this.$store.getters.remaining
         },
 
         anyRemaining() {
-          return this.remaining != 0
+          return this.$store.getters.anyRemaining
         },
 
         todosFiltered() {
-          if (this.$store.state.filter == 'all') {
-            return this.$store.state.todos
-          }
-          else if (this.$store.state.filter == 'active') {
-            return this.$store.state.todos.filter((todo) => !todo.completed)
-          }
-          else if (this.$store.state.filter == 'completed') {
-            return this.$store.state.todos.filter((todo) => todo.completed)
-          }
-
-          return this.$store.state.todos
+          return this.$store.getters.todosFiltered
         },
 
         showClearCompletedButton() {
-          return this.$store.state.todos.filter((todo) => todo.completed).length > 0
+          return this.$store.getters.showClearCompletedButton
         }
     },
 
@@ -130,7 +120,8 @@ export default {
       },
 
       finishedEdit(data) {
-        this.$store.state.todos.splice(data.index, 1, data.todo)
+        const index = this.$store.state.todos.findIndex(item => item.id == data.id)
+        this.$store.state.todos.splice(index, 1, data)
       }
     }
 }

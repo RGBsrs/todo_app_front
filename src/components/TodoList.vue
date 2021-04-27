@@ -78,7 +78,7 @@ export default {
           return
         }
 
-        this.$store.commit('addTodo', {
+        this.$store.dispatch('addTodo', {
           id: this.idForTodo,
           title: this.newTodo,
         })

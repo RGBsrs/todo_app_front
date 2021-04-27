@@ -99,6 +99,9 @@ export default {
     padding: 10px 18px;
     font-size: 18px;
     margin-bottom: 16px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 3px 10px rgba(0,0,0,0.19);
 
     &:focus {
       outline: 0;
@@ -111,11 +114,21 @@ export default {
     align-items: center;
     justify-content: space-between;
     animation-duration: 0.3s;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    padding: 0 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 3px 10px rgba(0,0,0,0.19);
   }
 
   .remove-item {
     cursor: pointer;
     margin-left: 14px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    background-color:lightpink;
+    border:1px solid lightgrey;
     &:hover {
       color: black;
     }
@@ -165,9 +178,15 @@ export default {
     font-size: 14px;
     background-color: white;
     appearance: none;
+    border: 2px solid grey;
+    border-radius: 5px;
+    margin-right: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 3px 10px rgba(0,0,0,0.19);
+    cursor: pointer;
 
     &:hover {
-      background: lightgreen;
+      background:lightgrey;
+      box-shadow: 0 6px 8px 0 rgba(0,0,0,0.24), 0 6px 15px rgba(0,0,0,0.19);
     }
 
     &:focus {

@@ -88,22 +88,32 @@ export default new Vuex.Store({
   },
   actions: {
     addTodo(context, todo) {
-      context.commit('addTodo', todo)
+      setTimeout(() => {
+        context.commit('addTodo', todo)
+      }, 500)
     },
     updateTodo(context, todo) {
-      context.commit('updateTodo', todo)
+      setTimeout(() => {
+        context.commit('updateTodo', todo)
+      }, 500)
     },
     deleteTodo(context, id) {
-      context.commit('deleteTodo', id)
+      setTimeout(() => {
+        context.commit('deleteTodo', id)
+      }, 500)
     },
     clearCompleted(context) {
-      context.commit('clearCompleted')
+      setTimeout(() => {
+        context.commit('clearCompleted')
+      }, 500)
     },
     updateFilter(context, filter) {
-      context.commit('updateFilter', filter)
+      setTimeout(() => {
+        context.commit('updateFilter', filter)
+      }, 500)
     },
     checkAll(context) {
-      context.commit('checkAll')
+        context.commit('checkAll')
     },
   },
   modules: {

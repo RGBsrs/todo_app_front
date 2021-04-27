@@ -97,7 +97,7 @@ export default new Vuex.Store({
       context.commit('deleteTodo', id)
     },
     clearCompleted(context) {
-      context.commit('clearCompled')
+      context.commit('clearCompleted')
     },
     updateFilter(context, filter) {
       context.commit('updateFilter', filter)

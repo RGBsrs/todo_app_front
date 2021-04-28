@@ -49,16 +49,15 @@ export default {
     data() {
         return {
             newTodo : '',
-            beforeEditCache : '',
             idForTodo: 4,
         }
     },
 
-    computed: {
-        remaining() {
-          return this.$store.getters.remaining
-        },
+    created() {
+      this.$store.dispatch('retrieveTodos')
+    },
 
+    computed: {
         anyRemaining() {
           return this.$store.getters.anyRemaining
         },
@@ -66,10 +65,6 @@ export default {
         todosFiltered() {
           return this.$store.getters.todosFiltered
         },
-
-        showClearCompletedButton() {
-          return this.$store.getters.showClearCompletedButton
-        }
     },
 
     methods: {

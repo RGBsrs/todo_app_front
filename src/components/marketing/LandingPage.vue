@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="flex-center">
         Landing
     </div>
 </template>

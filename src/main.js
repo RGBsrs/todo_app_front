@@ -1,6 +1,7 @@
 import Vue from 'vue'
-import App from './App.vue'
+import Master from './components/layouts/Master'
 import store from './store'
+import router from './router'
 
 Vue.config.productionTip = false
 
@@ -8,5 +9,6 @@ Vue.prototype.$eventBus = new Vue()
 
 new Vue({
   store,
-  render: h => h(App)
+  router,
+  render: h => h(Master)
 }).$mount('#app')

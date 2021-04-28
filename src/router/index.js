@@ -1,0 +1,25 @@
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import App from '../App'
+import LandingPage from '../components/marketing/LandingPage'
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '/',
+    name: 'LandingPage',
+    component: LandingPage
+  },
+  {
+    path: '/todo',
+    name: 'App',
+    component: App
+  },
+]
+
+const router = new VueRouter({
+  routes
+})
+
+export default router

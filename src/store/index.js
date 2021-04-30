@@ -8,6 +8,7 @@ axios.defaults.baseURL = 'http://127.0.0.1:5000/api/v1'
 export default new Vuex.Store({
   state: {
     token: localStorage.getItem('token') || null,
+    id: localStorage.getItem('id') || null,
     filter: 'all',
     todos : [],
   },
@@ -75,14 +76,21 @@ export default new Vuex.Store({
     retrieveTodos(state, todos) {
       state.todos = todos
     },
-    retrieveToken(state, token) {
+    retrieveToken(state, token, id) {
       state.token = token
+      state.id = id
     },
     destroyToken(state) {
       state.token = null
     },
+    clearTodos(state) {
+      state.todos = []
+    },
   },
   actions: {
+    clearTodos(context) {
+      context.commit('clearTodos')
+    },
     register(context, data) {
       return new Promise((resolve, reject) => {
         axios.post('/register', {
@@ -106,9 +114,12 @@ export default new Vuex.Store({
         })
         .then(response => {
           const token = response.data.token
+          const id = response.data.user_id
           
           localStorage.setItem('token', token)
-          context.commit('retrieveToken', token)
+          localStorage.setItem('id', id)
+          context.commit('retrieveToken', token, id)
+          console.log(id)
           resolve(response)
         })
         .catch(error => {
@@ -124,11 +135,13 @@ export default new Vuex.Store({
           .then(response => { 
             console.log(response)         
             localStorage.removeItem('token')
+            localStorage.removeItem('id')
             context.commit('destroyToken')
             resolve(response)
           })
           .catch(error => {
             localStorage.removeItem('token')
+            localStorage.removeItem('id')
             context.commit('destroyToken')
             reject(error)
           })
@@ -136,7 +149,8 @@ export default new Vuex.Store({
       }
     },
     retrieveTodos(context) {
-      axios.get('todos', {
+      axios.defaults.headers.common['x-access-token'] = localStorage.token
+      axios.get('users/' + localStorage.id + '/todos', {
         headers: {
           'x-access-token': localStorage.token
         },
@@ -149,7 +163,8 @@ export default new Vuex.Store({
       })
     },
     addTodo(context, todo) {
-      axios.post('todos', {
+      axios.defaults.headers.common['x-access-token'] = localStorage.token
+      axios.post('users/' + localStorage.id + '/todos', {
         title: todo.title,
         completed: false,
 
@@ -162,7 +177,8 @@ export default new Vuex.Store({
       })
     },
     updateTodo(context, todo) {
-      axios.patch('todos/' + todo.id, {
+      axios.defaults.headers.common['x-access-token'] = localStorage.token
+      axios.patch('users/' + localStorage.id + '/todos/' + todo.id, {
         title: todo.title,
         completed: todo.completed,
       })
@@ -174,7 +190,8 @@ export default new Vuex.Store({
       })
     },
     deleteTodo(context, id) {
-      axios.delete('todos/' + id)
+      axios.defaults.headers.common['x-access-token'] = localStorage.token
+      axios.delete('users/' + localStorage.id + '/todos/' + id)
       .then(() => {
         context.commit('deleteTodo', id)
       })
@@ -183,7 +200,8 @@ export default new Vuex.Store({
       })
     },
     clearCompleted(context) {
-      axios.delete('todos/')
+      axios.defaults.headers.common['x-access-token'] = localStorage.token
+      axios.delete('users/' + localStorage.id + '/todos/')
       .then(() => {
         context.commit('clearCompleted')
       })
@@ -195,7 +213,8 @@ export default new Vuex.Store({
         context.commit('updateFilter', filter)
     },
     checkAll(context, checked) {
-      axios.patch('todos/',{
+      axios.defaults.headers.common['x-access-token'] = localStorage.token
+      axios.patch('users/' + localStorage.id + '/todos',{
         completed: checked
       })
       .then(() => {

@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="name-container">
+      Welcome, {{name}}
+    </div>
     <input class="todo-input" placeholder="Add some tasks" 
     v-model="newTodo" 
     @keyup.enter="addTodo">
@@ -50,11 +53,16 @@ export default {
         return {
             newTodo : '',
             idForTodo: 4,
+            name: '',
         }
     },
 
     created() {
       this.$store.dispatch('retrieveTodos')
+      this.$store.dispatch('retrieveName')
+      .then(response => {
+        this.name = response.data.name
+      })
     },
 
     computed: {
@@ -169,9 +177,14 @@ export default {
     margin-bottom: 14px;
   }
 
+  .name-container {
+    margin-bottom: 16px;
+  }
+
   button {
     font-size: 14px;
     background-color: white;
+    padding: 5px;
     appearance: none;
     border: 2px solid grey;
     border-radius: 5px;

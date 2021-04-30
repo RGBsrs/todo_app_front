@@ -2,6 +2,7 @@
   <div class="page-wrapper login-form">
     <h2 class="login-heading">Register</h2>
     <form action="#" @submit.prevent="register">
+      <div v-if="serverError" class="server-error">{{serverError}}</div>
 
       <!-- <div v-if="successMessage" class="success-message">{{ successMessage }}</div> -->
 
@@ -35,6 +36,7 @@ export default {
       name: '',
       email: '',
       password: '',
+      serverError: '',
     }
   },
   methods: {
@@ -46,7 +48,10 @@ export default {
       })
       .then(() => {
         this.$router.push({name : 'login'})
-      } )
+      })
+      .catch(error => {
+        this.serverError = error.response.data.message
+      })
     }
   }
 }

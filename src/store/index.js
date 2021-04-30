@@ -162,6 +162,20 @@ export default new Vuex.Store({
         console.log(error)
       })
     },
+    retrieveName() {
+      axios.defaults.headers.common['x-access-token'] = localStorage.token
+      return new Promise((resolve, reject) => {
+    
+      axios.get('users/' + localStorage.id)
+      .then(response => {
+        resolve(response)
+      })
+      .catch(error => {
+        reject(error)
+      })
+      })
+      
+    },
     addTodo(context, todo) {
       axios.defaults.headers.common['x-access-token'] = localStorage.token
       axios.post('users/' + localStorage.id + '/todos', {

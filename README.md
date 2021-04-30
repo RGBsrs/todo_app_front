@@ -1,4 +1,4 @@
-# todo
+# Todo-app Vue made according to the course of Andre Madarang
 
 ## Project setup
 ```
